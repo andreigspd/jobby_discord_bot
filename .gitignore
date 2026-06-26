@@ -1,1 +1,5 @@
 .env 
+discord.log
+jobs.db
+__pycache__
+
