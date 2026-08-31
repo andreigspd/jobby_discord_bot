@@ -1,4 +1,4 @@
-# Jobby - LinkedIn IT Job Notifier Discord Bot 💼🤖
+# Jobby - LinkedIn IT Job Notifier Discord Bot
 
 **Jobby** este un bot de Discord simplu și eficient specializat pe domeniul **IT / Software Engineering** care caută automat oferte de muncă pe **LinkedIn**, trimite notificări în timp real când apar joburi noi de IT și permite utilizatorilor să interacționeze cu joburile direct din Discord prin **butoane interactive** (📌 Selectat & ✅ Aplicat).
 
