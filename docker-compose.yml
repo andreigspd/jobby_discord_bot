@@ -1,0 +1,22 @@
+services:
+  jobby:
+    build: .
+    image: jobby-discord-bot
+    container_name: jobby
+    # Read the Discord token (and any other vars) from a local .env file.
+    # See .env.example for the required variables.
+    env_file:
+      - .env
+    environment:
+      # Persist the SQLite DB on the mounted volume below.
+      JOBS_DB_PATH: /data/jobs.db
+    volumes:
+      # Named volume keeps jobs.db (seen jobs, selections, active searches)
+      # across container restarts and rebuilds.
+      - jobby-data:/data
+    # Restart automatically unless you explicitly stop it — this is what keeps
+    # the bot running 24/7 (as long as the host machine / Docker is running).
+    restart: unless-stopped
+
+volumes:
+  jobby-data:

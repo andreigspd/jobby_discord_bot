@@ -1,0 +1,19 @@
+# Secrets — never bake these into the image
+.env
+
+# Local state / logs — these live on the mounted volume, not in the image
+jobs.db
+discord.log
+
+# Python cruft
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# VCS / editor
+.git
+.gitignore
+.idea/
+.vscode/

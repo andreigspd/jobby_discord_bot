@@ -65,6 +65,44 @@ sau
 
 ---
 
+## 🐳 Rulare 24/7 cu Docker
+
+Pentru ca botul să ruleze continuu (24/7), cel mai simplu este să-l pornești cu Docker. Baza de date SQLite (`jobs.db`) este salvată pe un volum Docker, așa că starea (joburi văzute, selecții, căutări active) **se păstrează la reporniri**.
+
+> ⚠️ **Notă despre "24/7"**: Botul rulează atâta timp cât mașina gazdă (și Docker) sunt pornite. Dacă îl rulezi pe laptopul tău, botul se oprește când închizi laptopul. Pentru uptime real 24/7, mută aceeași configurație pe un server mereu pornit (VPS). Configurația de mai jos funcționează identic în ambele cazuri.
+
+### 1. Cerințe
+- [Docker](https://docs.docker.com/get-docker/) și Docker Compose instalate.
+
+### 2. Configurare token
+Copiază fișierul exemplu și completează token-ul tău de Discord:
+
+```bash
+cp .env.example .env
+# editează .env și pune DISCORD_TOKEN=...
+```
+
+> 🔒 Fișierul `.env` este în `.gitignore` — nu îți publica niciodată token-ul.
+
+### 3. Pornire
+```bash
+docker compose up -d --build
+```
+
+Botul pornește în fundal și va reporni automat (`restart: unless-stopped`) dacă se blochează sau dacă repornești mașina.
+
+### 4. Comenzi utile
+```bash
+docker compose logs -f      # urmărește logurile în timp real
+docker compose restart      # repornește botul
+docker compose down         # oprește botul (datele din volum se păstrează)
+docker compose up -d --build   # reconstruiește după modificări de cod
+```
+
+Baza de date persistă în volumul Docker numit `jobby-data`. Chiar dacă ștergi și reconstruiești containerul, datele rămân. (Pentru a șterge complet datele: `docker compose down -v`.)
+
+---
+
 ## 📁 Structura proiectului
 
 ```text
@@ -73,6 +111,10 @@ jobby/
 ├── scraper.py        # Web scraping & filtrare exclusivă IT pentru endpoint-ul public LinkedIn
 ├── database.py       # Interfață SQLite (jobs.db) pentru deduplicare și selecții utilizatori
 ├── requirements.txt   # Dependențele Python (discord.py, beautifulsoup4, requests, python-dotenv)
+├── Dockerfile         # Imaginea Docker pentru rulare containerizată
+├── docker-compose.yml # Orchestrare + volum persistent pentru jobs.db + restart automat
+├── .env.example       # Șablon pentru variabilele de mediu (DISCORD_TOKEN)
+├── .dockerignore      # Fișiere excluse din imaginea Docker
 └── README.md         # Documentația proiectului
 ```
 
