@@ -1,7 +1,19 @@
 import sqlite3
 import os
 
-DB_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "jobs.db")
+# Location of the SQLite database file.
+# Defaults to a "jobs.db" next to the code (original behaviour), but can be
+# overridden via the JOBS_DB_PATH environment variable. This lets containerized
+# deployments point the DB at a mounted volume so state survives restarts.
+DB_FILE = os.getenv(
+    "JOBS_DB_PATH",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "jobs.db"),
+)
+
+# Ensure the parent directory exists (e.g. when pointing at a mounted volume path).
+_db_dir = os.path.dirname(os.path.abspath(DB_FILE))
+if _db_dir:
+    os.makedirs(_db_dir, exist_ok=True)
 
 def get_connection():
     connection = sqlite3.connect(DB_FILE)
