@@ -2,8 +2,6 @@
 
 **Jobby** is a simple and efficient Discord bot specialized in the **IT / Software Engineering** field. It automatically searches for job openings on **LinkedIn**, sends real-time notifications when new IT jobs appear, and lets users interact with jobs directly from Discord through **interactive buttons** (Select & Applied).
 
----
-
 ## Key features
 
 - **IT-only filtering**: The bot automatically applies special job-function filters and technology keywords (`f_F=it` + IT title filter) to remove jobs from other fields (HR, sales, drivers, etc.) and show only IT/Software jobs.
@@ -14,8 +12,6 @@
   - **Applied**: Mark a job as applied, so colleagues/friends in the server know which jobs have already been applied to.
 - **Integrated SQLite database**: Remembers jobs that were already notified (to avoid duplicates) and persists the state of selections and active searches even after the bot restarts.
 - **No LinkedIn authentication**: Scrapes the public guest endpoint, removing the risk of getting your personal LinkedIn account blocked.
-
----
 
 ## Requirements and installation
 
@@ -44,8 +40,6 @@ Run the command:
 python main.py
 ```
 
----
-
 ## Usage in Discord
 
 ### Search for IT jobs and enable notifications:
@@ -62,8 +56,6 @@ or
 1. The bot will immediately display the latest IT jobs found on LinkedIn as clean cards.
 2. The bot automatically registers the channel for background IT job checks every 15 minutes.
 3. Press the **Select** or **Applied** buttons under any job to mark its state in the conversation.
-
----
 
 ## Running 24/7 with Docker
 
@@ -101,8 +93,6 @@ docker compose up -d --build   # rebuild after code changes
 
 The database persists in the Docker volume named `jobby-data`. Even if you delete and rebuild the container, the data remains. (To fully delete the data: `docker compose down -v`.)
 
----
-
 ## Project structure
 
 ```text
@@ -117,8 +107,6 @@ jobby/
 ├── .dockerignore      # Files excluded from the Docker image
 └── README.md         # Project documentation
 ```
-
----
 
 ## License
 Project created for educational purposes. Use in accordance with the terms and conditions of the platforms involved.
