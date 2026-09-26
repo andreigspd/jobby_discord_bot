@@ -2,6 +2,14 @@
 
 **Jobby** is a simple and efficient Discord bot specialized in the **IT / Software Engineering** field. It automatically searches for job openings on **LinkedIn**, sends real-time notifications when new IT jobs appear, and lets users interact with jobs directly from Discord through **interactive buttons** (Select & Applied).
 
+## Demo
+
+Job alerts posted in Discord as interactive cards:
+
+<p align="center">
+  <img src="data/demo_embed_finds.png" alt="Jobby posting job alerts as Discord embeds with Select and Applied buttons" width="520">
+</p>
+
 ## Key features
 
 - **IT-only filtering**: The bot automatically applies special job-function filters and technology keywords (`f_F=it` + IT title filter) to remove jobs from other fields (HR, sales, drivers, etc.) and show only IT/Software jobs.
