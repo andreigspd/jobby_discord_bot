@@ -1,26 +1,22 @@
 # Jobby - LinkedIn IT Job Notifier Discord Bot
 
-**Jobby** este un bot de Discord simplu și eficient specializat pe domeniul **IT / Software Engineering** care caută automat oferte de muncă pe **LinkedIn**, trimite notificări în timp real când apar joburi noi de IT și permite utilizatorilor să interacționeze cu joburile direct din Discord prin **butoane interactive** (📌 Selectat & ✅ Aplicat).
+**Jobby** is a simple and efficient Discord bot specialized in the **IT / Software Engineering** field. It automatically searches for job openings on **LinkedIn**, sends real-time notifications when new IT jobs appear, and lets users interact with jobs directly from Discord through **interactive buttons** (Select & Applied).
 
----
+## Key features
 
-## ✨ Caracteristici principale
+- **IT-only filtering**: The bot automatically applies special job-function filters and technology keywords (`f_F=it` + IT title filter) to remove jobs from other fields (HR, sales, drivers, etc.) and show only IT/Software jobs.
+- **Simple search**: Run a single command `!search <keywords> <location>` (or `/search`) to quickly find IT openings on LinkedIn.
+- **Automatic notifications (Auto-Update)**: The bot saves your search and periodically checks in the background (every 15 minutes) for new IT jobs. When it finds a new opening, it automatically posts a card (embed) in the channel.
+- **Interactive Discord buttons**:
+  - **Select**: Mark a job as selected/saved. Your name appears in the footer of the Discord card.
+  - **Applied**: Mark a job as applied, so colleagues/friends in the server know which jobs have already been applied to.
+- **Integrated SQLite database**: Remembers jobs that were already notified (to avoid duplicates) and persists the state of selections and active searches even after the bot restarts.
+- **No LinkedIn authentication**: Scrapes the public guest endpoint, removing the risk of getting your personal LinkedIn account blocked.
 
-- 💻 **Filtrare exclusivă pentru IT**: Botul aplică automat filtre speciale de funcție de job și cuvinte-cheie din tehnologie (`f_F=it` + filtru titlu IT) pentru a elimina joburile din alte domenii (resurse umane, vânzări, șoferi etc.) și a afișa doar joburi de IT/Software!
-- 🔍 **Căutare simplă**: Execută o singură comandă `!search <cuvinte_cheie> <locație>` (sau `/search`) pentru a găsi rapid oferte de IT pe LinkedIn.
-- 🔄 **Notificări automate (Auto-Update)**: Botul salvează căutarea ta și verifică periodic (la fiecare 15 minute) în fundal dacă au apărut joburi noi de IT. Când găsește o ofertă nouă, trimite automat un card (embed) în canal!
-- 📌 **Butoane interactive în Discord**:
-  - 📌 **Selectează**: Marchează un job ca selectat/salvat. Numele tău va apărea în subsolul cardului din Discord!
-  - ✅ **Aplicat**: Marchează jobul ca fiind aplicat, astfel încât colegii/prietenii din server să știe la ce joburi s-a aplicat deja.
-- 💾 **Bază de date SQLite integrată**: Reține joburile deja notificate (pentru a evita duplicatele) și salvează starea selecțiilor și a căutărilor active chiar și după repornirea botului.
-- 🛡️ **Fără autentificare LinkedIn**: Scrapează endpoint-ul public guest, eliminând riscul blocării contului personal de LinkedIn.
+## Requirements and installation
 
----
-
-## 🛠️ Cerințe și Instalare
-
-### 1. Clonarea proiectului & Instalarea dependențelor
-Asigură-te că ai **Python 3.8+** instalat. Rulează în terminal:
+### 1. Clone the project & install dependencies
+Make sure you have **Python 3.8+** installed. Run in the terminal:
 
 ```bash
 git clone https://github.com/username/jobby.git
@@ -28,97 +24,89 @@ cd jobby
 python -m pip install -r requirements.txt
 ```
 
-### 2. Configurare mediu (`.env`)
-Creează un fișier numit `.env` în rădăcina proiectului și adaugă Token-ul botului tău de Discord:
+### 2. Environment configuration (`.env`)
+Create a file named `.env` in the project root and add your Discord bot token:
 
 ```env
 DISCORD_TOKEN=your_discord_bot_token_here
 ```
 
-> 💡 *Note*: Asigură-te că botul are activate permisiunile `Message Content Intent` și `Server Members Intent` din Discord Developer Portal.
+> *Note*: Make sure the bot has the `Message Content Intent` and `Server Members Intent` permissions enabled in the Discord Developer Portal.
 
-### 3. Pornirea botului
-Rulează comanda:
+### 3. Start the bot
+Run the command:
 
 ```bash
 python main.py
 ```
 
----
+## Usage in Discord
 
-## 🚀 Utilizare în Discord
-
-### Căutare joburi IT și activare notificări:
-Rulează în orice canal din serverul tău de Discord:
+### Search for IT jobs and enable notifications:
+Run in any channel of your Discord server:
 
 ```text
 !search "Python Developer" "Romania"
 ```
-sau
+or
 ```text
 !search "Junior" "Remote"
 ```
 
-1. Botul va afișa imediat ultimele joburi IT găsite pe LinkedIn sub formă de carduri elegante.
-2. Botul va înregistra automat canalul pentru verificări automate de joburi IT în fundal la fiecare 15 minute.
-3. Apasă pe butoanele **📌 Selectează** sau **✅ Aplicat** de sub orice job pentru a marca starea acestuia în conversație!
+1. The bot will immediately display the latest IT jobs found on LinkedIn as clean cards.
+2. The bot automatically registers the channel for background IT job checks every 15 minutes.
+3. Press the **Select** or **Applied** buttons under any job to mark its state in the conversation.
 
----
+## Running 24/7 with Docker
 
-## 🐳 Rulare 24/7 cu Docker
+To keep the bot running continuously (24/7), the simplest option is to start it with Docker. The SQLite database (`jobs.db`) is stored on a Docker volume, so the state (seen jobs, selections, active searches) **is preserved across restarts**.
 
-Pentru ca botul să ruleze continuu (24/7), cel mai simplu este să-l pornești cu Docker. Baza de date SQLite (`jobs.db`) este salvată pe un volum Docker, așa că starea (joburi văzute, selecții, căutări active) **se păstrează la reporniri**.
+> **Note on "24/7"**: The bot runs as long as the host machine (and Docker) are on. If you run it on your laptop, the bot stops when you close the laptop. For real 24/7 uptime, move the same setup to an always-on server (VPS). The configuration below works identically in both cases.
 
-> ⚠️ **Notă despre "24/7"**: Botul rulează atâta timp cât mașina gazdă (și Docker) sunt pornite. Dacă îl rulezi pe laptopul tău, botul se oprește când închizi laptopul. Pentru uptime real 24/7, mută aceeași configurație pe un server mereu pornit (VPS). Configurația de mai jos funcționează identic în ambele cazuri.
+### 1. Requirements
+- [Docker](https://docs.docker.com/get-docker/) and Docker Compose installed.
 
-### 1. Cerințe
-- [Docker](https://docs.docker.com/get-docker/) și Docker Compose instalate.
-
-### 2. Configurare token
-Copiază fișierul exemplu și completează token-ul tău de Discord:
+### 2. Token configuration
+Copy the example file and fill in your Discord token:
 
 ```bash
 cp .env.example .env
-# editează .env și pune DISCORD_TOKEN=...
+# edit .env and set DISCORD_TOKEN=...
 ```
 
-> 🔒 Fișierul `.env` este în `.gitignore` — nu îți publica niciodată token-ul.
+> The `.env` file is in `.gitignore` — never publish your token.
 
-### 3. Pornire
+### 3. Start
 ```bash
 docker compose up -d --build
 ```
 
-Botul pornește în fundal și va reporni automat (`restart: unless-stopped`) dacă se blochează sau dacă repornești mașina.
+The bot starts in the background and will restart automatically (`restart: unless-stopped`) if it crashes or if you reboot the machine.
 
-### 4. Comenzi utile
+### 4. Useful commands
 ```bash
-docker compose logs -f      # urmărește logurile în timp real
-docker compose restart      # repornește botul
-docker compose down         # oprește botul (datele din volum se păstrează)
-docker compose up -d --build   # reconstruiește după modificări de cod
+docker compose logs -f      # follow logs in real time
+docker compose restart      # restart the bot
+docker compose down         # stop the bot (data in the volume is preserved)
+docker compose up -d --build   # rebuild after code changes
 ```
 
-Baza de date persistă în volumul Docker numit `jobby-data`. Chiar dacă ștergi și reconstruiești containerul, datele rămân. (Pentru a șterge complet datele: `docker compose down -v`.)
+The database persists in the Docker volume named `jobby-data`. Even if you delete and rebuild the container, the data remains. (To fully delete the data: `docker compose down -v`.)
 
----
-
-## 📁 Structura proiectului
+## Project structure
 
 ```text
 jobby/
-├── main.py           # Logica botului de Discord, handler comenzi, UI View & task de fundal
-├── scraper.py        # Web scraping & filtrare exclusivă IT pentru endpoint-ul public LinkedIn
-├── database.py       # Interfață SQLite (jobs.db) pentru deduplicare și selecții utilizatori
-├── requirements.txt   # Dependențele Python (discord.py, beautifulsoup4, requests, python-dotenv)
-├── Dockerfile         # Imaginea Docker pentru rulare containerizată
-├── docker-compose.yml # Orchestrare + volum persistent pentru jobs.db + restart automat
-├── .env.example       # Șablon pentru variabilele de mediu (DISCORD_TOKEN)
-├── .dockerignore      # Fișiere excluse din imaginea Docker
-└── README.md         # Documentația proiectului
+├── main.py           # Discord bot logic, command handlers, UI View & background task
+├── scraper.py        # Web scraping & IT-only filtering for the public LinkedIn endpoint
+├── database.py       # SQLite interface (jobs.db) for deduplication and user selections
+├── requirements.txt   # Python dependencies (discord.py, beautifulsoup4, requests, python-dotenv)
+├── Dockerfile         # Docker image for containerized execution
+├── docker-compose.yml # Orchestration + persistent volume for jobs.db + automatic restart
+├── .env.example       # Template for environment variables (DISCORD_TOKEN)
+├── .dockerignore      # Files excluded from the Docker image
+└── README.md         # Project documentation
 ```
 
----
-
-## 📄 Licență
-Proiect creat cu scop educațional. Utilizați în conformitate cu termenii și condițiile de utilizare ale platformelor.
+## License
+Project created for educational purposes. Use in accordance with the terms and conditions of the platforms involved.
